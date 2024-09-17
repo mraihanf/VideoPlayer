@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video CMS</title>
+</head>
+<body>
+<h1>Upload Video</h1>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="text" name="title" placeholder="Video Title" required>
+    <input type="file" name="file" accept="video/*" required>
+    <button type="submit">Upload</button>
+</form>
+
+<h2>Video List</h2>
+<ul>
+    <li th:each="video : ${videos}">
+        <h3 th:text="${video.title}"></h3>
+        <video width="320" height="240" controls>
+            <source th:src="@{'/video/' + ${video.fileName}}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </li>
+</ul>
+</body>
+</html>
