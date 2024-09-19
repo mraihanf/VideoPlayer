@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 import java.util.List;
 
 @Controller
@@ -73,9 +74,13 @@ public class VideoController {
     @GetMapping("/video/play/fullscreen")
     public String fullscreenVideoplay(Model model) {
         List<Video> videos = videoService.getAllVideos();
+        List<String> videoFileNames = videos.stream()
+                .map(Video::getFileName)
+                .collect(Collectors.toList());
         model.addAttribute("video", videos);
         return "fullscreen";
     }
+
 
 
 //    private final String videoDir = "C:/Users/fadhl/OneDrive/Pictures/";
