@@ -28,40 +28,46 @@
             <source id="videoSource" type="video/mp4" />
             Your browser does not support the video tag.
         </video>
-
-        <script>
-            // const videos = "[[${video.Video}]]";
-            //
-            // console.log("Videos array:", videos);
-            $.get("/filename", (response) => {
-                console.log(response);
-            };)
-
-            let currentVideoIndex = 0;
-            const videoPlayer = document.getElementById("videoPlayer");
-            const videoSource = document.getElementById("videoSource");
-
-            // function playNextVideo() {
-            //     currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-            //     console.log("Playing video index:", currentVideoIndex);
-
-            //     videoSource.src = '/video/' + videos[currentVideoIndex];
-            //     videoPlayer.load();
-            //     videoPlayer.play();
-            // }
-
-            // videoPlayer.onended = playNextVideo;
-
-            // window.onload = function() {
-            //     if (videos.length > 0) {
-            //         videoSource.src = '/video/' + videos[currentVideoIndex];
-            //         console.log("Starting with video:", videos[currentVideoIndex]);  // Debug: cek video pertama yang diputar
-            //         videoPlayer.load();
-            //         videoPlayer.play();
-            //     } else {
-            //         console.error("No videos found!");  // Debug: jika tidak ada video
-            //     }
-            // };
-        </script>
     </body>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script inline="javascript">
+        var videos;
+        var currentVideoIndex = 0;
+        var videoPlayer = document.getElementById("videoPlayer");
+        var videoSource = document.getElementById("videoSource");
+
+        $.get("/filename", (response) => {
+            console.log(response);
+            videos = response.data;
+            console.log(videos);
+            videoPlayer.onended = playNextVideo;
+
+            window.onload = function () {
+                if (videos.length > 0) {
+                    videoSource.src = "/video/" + videos[currentVideoIndex];
+                    console.log(
+                        "Starting with video:",
+                        videos[currentVideoIndex],
+                    ); // Debug: cek video pertama yang diputar
+                    videoPlayer.load();
+                    videoPlayer.play();
+                } else {
+                    console.error("No videos found!"); // Debug: jika tidak ada video
+                }
+            };
+
+            function playNextVideo() {
+                currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+                console.log("Playing video index:", currentVideoIndex);
+
+                videoSource.src = "/video/" + videos[currentVideoIndex];
+                videoPlayer.load();
+                videoPlayer.play();
+            }
+        });
+
+        //
+        //
+    </script>
 </html>
