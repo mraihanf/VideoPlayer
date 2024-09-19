@@ -23,9 +23,35 @@
     </style>
 </head>
 <body>
-<video controls autoplay>
-    <source th:src="@{'/video/' + ${fileName}}" type="video/mp4">
+<video id="videoPlayer" controls autoplay>
+    <source id="videoSource" type="video/mp4">
     Your browser does not support the video tag.
 </video>
+
+<script>
+    // Mengambil array video dari Thymeleaf dan memasukannya ke dalam JavaScript
+    const videos = /*[[${video}]]*/ []; // Ini adalah array video dari Thymeleaf
+    let currentVideoIndex = 0;
+    const videoPlayer = document.getElementById('videoPlayer');
+    const videoSource = document.getElementById('videoSource');
+
+    // Fungsi untuk memutar video berikutnya
+    function playNextVideo() {
+        currentVideoIndex = (currentVideoIndex + 1) % videos.length; // Mengulang setelah mencapai akhir
+        videoSource.src = '/video/' + videos[currentVideoIndex].fileName;
+        videoPlayer.load();  // Load ulang video baru
+        videoPlayer.play();  // Mainkan video
+    }
+
+    // Saat video berakhir, lanjut ke video berikutnya
+    videoPlayer.onended = playNextVideo;
+
+    // Mulai dengan video pertama ketika halaman dimuat
+    window.onload = function() {
+        videoSource.src = '/video/' + videos[currentVideoIndex].fileName;
+        videoPlayer.load();
+        videoPlayer.play();
+    };
+</script>
 </body>
 </html>

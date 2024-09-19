@@ -13,7 +13,7 @@ spring:
   application:
     name: Panji
   datasource:
-    url: jdbc:postgresql://localhost:5432/testvideoplay
+    url: jdbc:postgresql://localhost:5432/videoplay
     username: postgres
     password: 123456
     driverClassName: org.postgresql.Driver

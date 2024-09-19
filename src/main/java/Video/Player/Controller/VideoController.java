@@ -28,7 +28,7 @@ public class VideoController {
     @Autowired
     private VideoService videoService;
 
-    @GetMapping("/admin")
+    @GetMapping("/")
     public String index(Model model) {
         List<Video> videos = videoService.getAllVideos();
         model.addAttribute("videos", videos);
@@ -69,6 +69,14 @@ public class VideoController {
         model.addAttribute("video", video);
         return "fullscreen";
     }
+
+    @GetMapping("/video/play/fullscreen")
+    public String fullscreenVideoplay(Model model) {
+        List<Video> videos = videoService.getAllVideos();
+        model.addAttribute("video", videos);
+        return "fullscreen";
+    }
+
 
 //    private final String videoDir = "C:/Users/fadhl/OneDrive/Pictures/";
 //

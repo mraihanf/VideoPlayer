@@ -20,7 +20,7 @@ public class VideoService {
     @Autowired
     private VideoRepository videoRepository;
 
-    private String uploadDir = "C:\\Users\\fadhl\\OneDrive\\Pictures\\";
+    private String uploadDir = "C:\\Users\\Raihan.fadhlullah\\Pictures\\AMS\\";
     public void uploadVideo(MultipartFile file, String title) throws IOException {
         Path filePath = Paths.get(uploadDir + title + file.getOriginalFilename());
         Files.copy(file.getInputStream(), filePath);
