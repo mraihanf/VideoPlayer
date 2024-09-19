@@ -11,10 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -32,11 +29,21 @@ public class VideoController {
     @Autowired
     private VideoService videoService;
 
-    @GetMapping("/")
+    @GetMapping("/admin")
     public String index(Model model) {
         List<Video> videos = videoService.getAllVideos();
         model.addAttribute("videos", videos);
         return "index";
+    }
+
+    @DeleteMapping("/delete")
+    public  ResponseEntity<Void>  delete(Integer id ){
+        try {
+            videoService.delete(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/upload")
@@ -47,7 +54,7 @@ public class VideoController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     @GetMapping("/video/{fileName}")
@@ -96,12 +103,6 @@ public class VideoController {
     }
 
 //    private final String videoDir = "C:/Users/fadhl/OneDrive/Pictures/";
-//
-//    @GetMapping("/video/fullscreen/{fileName}")
-//    public String fullscreenVideo(@PathVariable String fileName, Model model) {
-//        model.addAttribute("fileName", fileName);
-//        return "fullscreen";
-//    }
 //
 //    @GetMapping("/video/{fileName}")
 //    public ResponseEntity<Resource> streamVideo(@PathVariable String fileName) {

@@ -39,4 +39,12 @@ public class VideoService {
     public Path getVideoPath(String fileName) {
         return Paths.get(uploadDir + fileName);
     }
+
+    public void delete(Integer id) {
+        if (videoRepository.existsById(id)) {
+            videoRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("not found with id: " + id);
+        }
+    }
 }
