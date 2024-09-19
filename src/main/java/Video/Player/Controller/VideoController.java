@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.List;
 
@@ -77,11 +80,20 @@ public class VideoController {
         List<String> videoFileNames = videos.stream()
                 .map(Video::getFileName)
                 .collect(Collectors.toList());
-        model.addAttribute("video", videos);
+        model.addAttribute("video", videoFileNames);
         return "fullscreen";
     }
 
-
+    @GetMapping("/filename")
+    public ResponseEntity<Map> filename(){
+        Map data = new HashMap<>();
+        List<Video> videos = videoService.getAllVideos();
+        List<String> videoFileNames = videos.stream()
+                .map(Video::getFileName)
+                .collect(Collectors.toList());
+        data.put("data", videoFileNames);
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
 
 //    private final String videoDir = "C:/Users/fadhl/OneDrive/Pictures/";
 //
